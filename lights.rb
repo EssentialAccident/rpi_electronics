@@ -17,7 +17,7 @@ sr = RPiElectronics::SR74hc595.new data_pin, clock_pin, latch_pin
 
 # sr.write_array array
 
-500.times do
+10.times do
   sr.write_array array
   sleep pause
   array.shift

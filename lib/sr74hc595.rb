@@ -15,10 +15,12 @@ module RPiElectronics
       @clock_pin = clock_pin
       @latch_pin = latch_pin
       @number_chips = number_chips
+      @sr_pins = []
       setup
     end
 
     def write_array(data)
+      @sr_pins = data
       RPi::GPIO.set_low @latch_pin
       data.each do |bit|
         case bit
@@ -33,15 +35,15 @@ module RPiElectronics
     end
 
     def all_off
-      array = []
-      (8 * @number_chips).times { array.append 0 }
-      write_array array
+      @sr_pins = []
+      (8 * @number_chips).times { @sr_pins.append 0 }
+      write_array @sr_pins
     end
 
     def all_on
-      array = []
-      (8 * @number_chips).times { array.append 1 }
-      write_array array
+      @sr_pins = []
+      (8 * @number_chips).times { @sr_pins.append 1 }
+      write_array @sr_pins
     end
 
     def tick
@@ -54,6 +56,7 @@ module RPiElectronics
       RPi::GPIO.setup @data_pin, as: :output, initialize: :low
       RPi::GPIO.setup @clock_pin, as: :output, initialize: :low
       RPi::GPIO.setup @latch_pin, as: :output, initialize: :high
+      (8 * @number_chips).times { @sr_pins.append 0 }
     end
   end
 end

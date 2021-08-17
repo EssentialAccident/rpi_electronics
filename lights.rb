@@ -17,25 +17,15 @@ sr = RPiElectronics::SR74hc595.new data_pin, clock_pin, latch_pin
 
 # sr.write_array array
 
-20.times do
-  n = rand(sr.number_pins)
-  sr.write_pin n, 1
-  sleep pause
-  sr.write_pin n, 0
+sr.number_pins.times do |pin|
+  sr.write_pin pin, 1
   sleep pause
 end
 
-# 10.times do
-#   sr.write_array array
-#   sleep pause
-#   array.shift
-#   case array.last
-#   when 1
-#     array.append 0
-#   when 0
-#     array.append 1
-#   end
-# end
+(sr.number_pins - 1).downto(0) do |pin|
+  sr.write_pin pin, 0
+  sleep pause
+end
 
 sr.all_off
 

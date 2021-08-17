@@ -25,7 +25,7 @@ module RPiElectronics
     def write_array(data)
       @sr_pins = data
       RPi::GPIO.set_low @latch_pin
-      data.each do |bit|
+      @sr_pins.reverse.each do |bit|
         case bit
         when 0
           RPi::GPIO.set_low @data_pin
@@ -37,8 +37,8 @@ module RPiElectronics
       RPi::GPIO.set_high @latch_pin
     end
 
-    def write_pin(sr_pin, value)
-      @sr_pins[sr_pin] = value
+    def write_pin(pin, value)
+      @sr_pins[pin] = value
       write_array @sr_pins
     end
 

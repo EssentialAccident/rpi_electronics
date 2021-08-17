@@ -6,10 +6,10 @@ GEM
       epoll (~> 0.3)
 
 PLATFORMS
-  armv7l-linux-eabihf
+  ruby
 
 DEPENDENCIES
   rpi_gpio (~> 0.5.0)
 
 BUNDLED WITH
-   2.2.22
+   2.1.4

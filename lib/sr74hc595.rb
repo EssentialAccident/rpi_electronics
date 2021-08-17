@@ -32,6 +32,18 @@ module RPiElectronics
       RPi::GPIO.set_high @latch_pin
     end
 
+    def all_off
+      array = []
+      (8 * @number_chips).times { array.append 0 }
+      write_array array
+    end
+
+    def all_on
+      array = []
+      (8 * @number_chips).times { array.append 1 }
+      write_array array
+    end
+
     def tick
       RPi::GPIO.set_high @clock_pin
       # It is possible to add some kind of pause here

@@ -10,11 +10,14 @@ module RPiElectronics
     # Constants
     PAUSE = 0.5
 
+    attr_reader :number_pins
+
     def initialize(data_pin, clock_pin, latch_pin, number_chips = 1)
       @data_pin = data_pin
       @clock_pin = clock_pin
       @latch_pin = latch_pin
       @number_chips = number_chips
+      @number_pins = 8 * @number_chips
       @sr_pins = []
       setup
     end
@@ -32,6 +35,11 @@ module RPiElectronics
         tick
       end
       RPi::GPIO.set_high @latch_pin
+    end
+
+    def write_pin(sr_pin, value)
+      @sr_pins[sr_pin] = value
+      write_array @sr_pins
     end
 
     def all_off
@@ -56,7 +64,7 @@ module RPiElectronics
       RPi::GPIO.setup @data_pin, as: :output, initialize: :low
       RPi::GPIO.setup @clock_pin, as: :output, initialize: :low
       RPi::GPIO.setup @latch_pin, as: :output, initialize: :high
-      (8 * @number_chips).times { @sr_pins.append 0 }
+      all_off
     end
   end
 end
